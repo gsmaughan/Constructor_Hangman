@@ -3,25 +3,38 @@ var isLetter = require('is-letter');
   // * **Word**: Used to create an object representing the current word the user 
   // is attempting to guess. This should contain word specific logic and data.
 
-var wordArray = ["MARKELL JOHNSON", "AL FREEMAN", "TORIN DORN", "BRAXTON BEVERLY", "OMER YURTSEVEN"];
-var playerArray = [];
-var dashed = [];
-var playerIndex = 0;
-var playerName = wordArray[playerIndex];
-var playerNameLength = wordArray[playerIndex].length;
+
+
+	var wordArray = ["MARKELL JOHNSON", "AL FREEMAN", "TORIN DORN", "BRAXTON BEVERLY", "OMER YURTSEVEN"];
+	var playerArray = [];
+	var dashed = [];
+	var playerIndex = 0;
+	
+
+
+let guessesRemaining = 5;
 
 
 //take a player in the wordArray and push each letter into the playerArray
-for(var i = 0; i < playerName.length; i++ ){
-	var playerLetter = playerName.charAt(i);
-	playerArray.push(playerLetter);
-}
+
 
 
 var show = function(){
 
+
+
 	this.display = function(){
 		
+		console.log("this.display fired");
+
+		var playerName = wordArray[playerIndex];
+		var playerNameLength = wordArray[playerIndex].length;
+
+		for(var i = 0; i < playerName.length; i++ ){
+			var playerLetter = playerName.charAt(i);
+			playerArray.push(playerLetter);
+		}
+
 
 		// replace with dashes
 		for(var j = 0; j < playerArray.length; j++){
@@ -44,20 +57,48 @@ var show = function(){
 	};// end display
 
 	this.replace = function(inputLetter){
-		console.log("this.replace works");
+		// console.log("this.replace works");
 		this.inputLetter = inputLetter;
+		//create a new instance of letter.js
+			var Letter = require("./letter");
+  			var input = new Letter();
+
 
 		if(playerArray.indexOf(inputLetter) > -1){
-			console.log(inputLetter + " is in this word");
+			// console.log(inputLetter + " is in this word");
 			this.switch(inputLetter);
 		}
+
 		else{
 			console.log(inputLetter + " is NOT in this word");
+			guessesRemaining--;
+			console.log("Only", guessesRemaining, "guesses left.");
+			
+  			//re-run the .enterLetter function from the letter file after letters are shown
+  			input.enterLetter();
 		}
+
+		if (guessesRemaining == 0){
+				console.log("Out of guesses");
+
+				playerArray = [];
+				dashed = [];
+				playerIndex++;
+				guessesRemaining = 5;
+
+
+				var Letter = require("./letter");
+  				var input = new Letter();
+				input.check();
+			}
+		
 
 		}; // end this.replace 
 
 	this.switch = function (inputLetter){
+				//create a new instance of letter.js
+			
+
 			this.inputLetter = inputLetter;
 
 			//for loop for changing the dashes with inputLetter
@@ -72,16 +113,32 @@ var show = function(){
 			var str = dashed.join(' ');
 			console.log(str);
 
+			if(dashed.indexOf("_") == -1){
+				console.log("Good job");
+				playerArray = [];
+				dashed = [];
+				playerIndex++;
 
-			//create a new instance of letter.js
-			var Letter = require("./letter");
+
+				var Letter = require("./letter");
+  				var input = new Letter();
+				input.check();
+				
+			}
+
+
+
+			else{
+  			//re-run the .enterLetter function from the letter file after letters are shown
+  			var Letter = require("./letter");
   			var input = new Letter();
 
-  			//re-run the .enterLetter function from the letter file after letters are shown
   			input.enterLetter();
+
+			}
+			
 			
 		}; //end switch
-
 
 }; //end show constructor
 

@@ -52,7 +52,6 @@ var LetterConst  = function(){
 
   				if (test == true) {
       				
-					console.log("You chose", inputLetter);
 					displayWord.replace(inputLetter);
 
 				}//end if
