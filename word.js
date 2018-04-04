@@ -9,6 +9,8 @@ var isLetter = require('is-letter');
 	var playerArray = [];
 	var dashed = [];
 	var playerIndex = 0;
+	var wins = 0;
+	var losses = 0;
 	
 
 
@@ -25,7 +27,6 @@ var show = function(){
 
 	this.display = function(){
 		
-		console.log("this.display fired");
 
 		var playerName = wordArray[playerIndex];
 		var playerNameLength = wordArray[playerIndex].length;
@@ -85,6 +86,9 @@ var show = function(){
 				dashed = [];
 				playerIndex++;
 				guessesRemaining = 5;
+				losses++;
+				console.log("Wins", wins, "Losses", losses);
+
 
 
 				var Letter = require("./letter");
@@ -118,6 +122,8 @@ var show = function(){
 				playerArray = [];
 				dashed = [];
 				playerIndex++;
+				wins++;
+				console.log("Wins", wins, "Losses", losses);
 
 
 				var Letter = require("./letter");
